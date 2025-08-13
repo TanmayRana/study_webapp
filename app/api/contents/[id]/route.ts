@@ -3,7 +3,10 @@ import { connectDB } from "@/lib/mongodb";
 import { Content } from "@/lib/Schemas";
 import { NextResponse } from "next/server";
 
-export async function GET({ params }: { params: { id: string } }) {
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   await connectDB();
 
   try {

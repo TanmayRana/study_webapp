@@ -1,17 +1,16 @@
 import { connectDB } from "@/lib/mongodb";
 import { Content, MainTitle } from "@/lib/Schemas";
 import { NextRequest, NextResponse } from "next/server";
-// import connectDB from "@/lib/mongodb";
-// import MainTitle from "@/lib/models/MainTitle";
-// import Content from "@/lib/models/Content";
+
+// /api/maintitles/[id]
 
 // GET single MainTitle by id
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await context.params;
     if (!id)
       return NextResponse.json(
         { success: false, error: "ID is required" },
@@ -44,10 +43,10 @@ export async function GET(
 // PUT / update MainTitle
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await context.params;
     const body = await request.json();
     const { title, contents } = body;
 
@@ -84,10 +83,10 @@ export async function PUT(
 // DELETE / delete MainTitle and related contents
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await context.params;
     if (!id)
       return NextResponse.json(
         { success: false, error: "ID is required" },

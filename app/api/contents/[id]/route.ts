@@ -248,9 +248,9 @@ export async function GET(
 // PUT update content by ID
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await context.params;
   await connectDB();
 
   try {
@@ -280,10 +280,10 @@ export async function PUT(
 
 // DELETE content by ID
 export async function DELETE(
-  _: Request,
-  { params }: { params: { id: string } }
+  req: Request,
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await context.params;
   await connectDB();
 
   try {

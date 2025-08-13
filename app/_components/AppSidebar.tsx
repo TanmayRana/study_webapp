@@ -1,13 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  BookOpen,
-  Frame,
-  GalleryVerticalEnd,
-  PieChart,
-  Settings2,
-} from "lucide-react";
+import { BookOpen, Frame, GalleryVerticalEnd, PieChart } from "lucide-react";
 
 import {
   Sidebar,
@@ -15,7 +9,6 @@ import {
   SidebarHeader,
   SidebarMenuButton,
   SidebarRail,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import { NavMain } from "./NavMain";
 

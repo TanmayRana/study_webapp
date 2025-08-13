@@ -5,12 +5,15 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: any } }
+  context: { params: { id: string } }
 ) {
+  const params = await context.params;
+  const id = params.id;
+
   await connectDB();
 
   try {
-    const content = await Content.findById(params.id);
+    const content = await Content.findById(id);
 
     if (!content) {
       return NextResponse.json(

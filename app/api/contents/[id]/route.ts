@@ -5,14 +5,10 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  contexts: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
-  console.log("request in GET", contexts);
-
-  const params = await contexts.params;
-  console.log("params in GET", params);
-
-  const id = params.id;
+  const { id } = await params;
+  console.log("params in GET", id);
 
   await connectDB();
 

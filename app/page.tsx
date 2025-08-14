@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FolderOpen } from "lucide-react";
+import { ArrowRight, FolderOpen } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import {
   selectMainTitles,
@@ -32,9 +32,10 @@ export default function Home() {
         </h1>
         <Button
           onClick={() => route.push("/admin")}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-md transition-all"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-md transition-all cursor-pointer"
         >
           Admin Panel
+          <ArrowRight className="w-4 h-4" />
         </Button>
       </div>
 

@@ -183,7 +183,7 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { connectDB } from "@/lib/mongodb";
-import { Content } from "@/lib/Schemas";
+import { Content, MainTitle } from "@/lib/Schemas";
 import { NextResponse } from "next/server";
 
 // GET content by ID
@@ -256,11 +256,24 @@ export async function PUT(
   try {
     const { title, content, mainTitle } = await req.json();
 
+    // console.log("body", title, content, mainTitle);
+
+    const exisContent = await Content.findById(id);
+
+    if (exisContent.mainTitle.toString() !== mainTitle) {
+      await MainTitle.findByIdAndUpdate(exisContent.mainTitle, {
+        $pull: { contents: id },
+      });
+    }
+
     const updated = await Content.findByIdAndUpdate(
       id,
-      { title, content, mainTitle },
+      { $set: { title, content, mainTitle } },
       { new: true }
     );
+    await MainTitle.findByIdAndUpdate(mainTitle, {
+      $push: { contents: id },
+    });
 
     if (!updated) {
       return NextResponse.json(

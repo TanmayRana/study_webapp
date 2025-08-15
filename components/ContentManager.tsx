@@ -94,6 +94,8 @@ export default function ContentManager() {
             mainTitle: mainTitleValue,
           })
         ).unwrap();
+
+        dispatch(fetchContents());
       } else {
         await dispatch(
           createContent({

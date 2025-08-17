@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FolderOpen } from "lucide-react";
-import { useParams } from "next/navigation";
+import { ArrowLeft, FolderOpen, Loader2 } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { useEffect } from "react";
 import {
@@ -11,9 +11,11 @@ import {
   selectSelectedMainTitle,
   selectMainTitleLoading,
 } from "@/lib/store/slices/mainTitleSlice";
+import { Button } from "@/components/ui/button";
 
 const InsidePage = () => {
   const params = useParams();
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
   const selectedMainTitle = useAppSelector(selectSelectedMainTitle);
@@ -28,8 +30,8 @@ const InsidePage = () => {
   // Loading state
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[50vh]">
-        <p className="text-lg text-gray-500 animate-pulse">Loading topics...</p>
+      <div className="flex justify-center items-center min-h-[40vh]">
+        <Loader2 className="h-10 w-10 text-blue-500 animate-spin" />
       </div>
     );
   }
@@ -48,9 +50,19 @@ const InsidePage = () => {
   return (
     <div className="container mx-auto py-6 px-4">
       {/* Heading */}
-      <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-8 text-gray-800 dark:text-gray-100">
-        {selectedMainTitle.title}
-      </h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-800 dark:text-gray-100">
+          {selectedMainTitle.title}
+        </h1>
+        <Button
+          onClick={() => router.back()}
+          variant="outline"
+          className="flex items-center gap-2"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Previous Page
+        </Button>
+      </div>
 
       {/* Topics Grid */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

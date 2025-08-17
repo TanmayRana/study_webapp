@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import {
@@ -7,13 +8,15 @@ import {
   selectContentLoading,
   selectSelectedContent,
 } from "@/lib/store/slices/contentSlice";
-import { useParams } from "next/navigation";
+import { ArrowLeft, Loader2 } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
 
 const DetailsPage = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const selectedContent = useAppSelector(selectSelectedContent);
   const loading = useAppSelector(selectContentLoading);
@@ -24,26 +27,40 @@ const DetailsPage = () => {
     }
   }, [params.id, dispatch]);
 
+  // Loading State
   if (loading) {
     return (
-      <p className="text-center text-muted-foreground text-lg py-8 animate-pulse">
-        Loading...
-      </p>
+      <div className="flex justify-center items-center min-h-[40vh]">
+        <Loader2 className="h-10 w-10 text-blue-500 animate-spin" />
+      </div>
     );
   }
 
+  // Not Found State
   if (!selectedContent) {
     return (
-      <p className="text-center text-muted-foreground text-lg py-8">
-        Content not found.
-      </p>
+      <div className="flex justify-center items-center min-h-[40vh]">
+        <p className="text-lg text-gray-500 dark:text-gray-400">
+          Content not found.
+        </p>
+      </div>
     );
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 md:px-6 py-6 space-y-6">
+    <div className="max-w-5xl mx-auto px-4 md:px-6 py-8 space-y-8">
+      {/* Back Button */}
+      <Button
+        onClick={() => router.back()}
+        variant="ghost"
+        className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors shadow border"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        Previous Page
+      </Button>
+
       {/* Title */}
-      <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100">
+      <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
         {selectedContent.title}
       </h1>
 
